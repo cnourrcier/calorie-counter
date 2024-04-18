@@ -52,8 +52,12 @@ function calculateCalories(e) { // this function will be an event listener, e is
                         <p>${budgetCalories} Calories Budgeted</p>
                         <p>${consumedCalories} Calories Consumed</p>
                         <p>${exerciseCalories} Calories Burned</p>
+                        <button type="button" id="save">Save</button>
     `;
     output.classList.remove('hide');
+
+    const saveButton = document.getElementById("save");
+    saveButton.addEventListener('click', saveData);
 }
 
 function getCaloriesFromInputs(list) { // list will be the result of query selector, which is a NodeList, which is similar to an array.
@@ -69,6 +73,79 @@ function getCaloriesFromInputs(list) { // list will be the result of query selec
         calories += Number(currVal);
     }
     return calories;
+}
+
+function saveData() {
+    isError = false;
+    const breakfastFoodInputs = document.querySelectorAll('#breakfast input[type=text]');
+    const breakfastNumberInputs = document.querySelectorAll('#breakfast input[type=number]'); // This returns any number inputs in the #breakfast element.
+    const breakfastFoods = [];
+    for (let i = 0; i < breakfastFoodInputs.length; i++) {
+        const foodName = breakfastFoodInputs[i].value;
+        const calories = parseInt(breakfastNumberInputs[i].value);
+        breakfastFoods.push({ name: foodName, calories: calories });
+    }
+    const lunchFoodInputs = document.querySelectorAll('#lunch input[type=text]');
+    const lunchNumberInputs = document.querySelectorAll('#lunch input[type=number]');
+    const lunchFoods = [];
+    for (let i = 0; i < lunchFoodInputs.length; i++) {
+        const foodName = lunchFoodInputs[i].value;
+        const calories = parseInt(lunchNumberInputs[i].value);
+        lunchFoods.push({ name: foodName, calories: calories });
+    }
+    const dinnerFoods = [];
+    const dinnerFoodInputs = document.querySelectorAll('#dinner input[type=text]');
+    const dinnerNumberInputs = document.querySelectorAll('#dinner input[type=number]');
+    for (let i = 0; i < dinnerFoodInputs.length; i++) {
+        const foodName = dinnerFoodInputs[i].value;
+        const calories = parseInt(dinnerNumberInputs[i].value);
+        dinnerFoods.push({ name: foodName, calories: calories });
+    }
+    const snackFoods = [];
+    const snacksFoodInputs = document.querySelectorAll('#snacks input[type=text]');
+    const snacksNumberInputs = document.querySelectorAll('#snacks input[type=number]');
+    for (let i = 0; i < snacksFoodInputs.length; i++) {
+        const foodName = snacksFoodInputs[i].value;
+        const calories = parseInt(snacksNumberInputs[i].value);
+        snackFoods.push({ name: foodName, calories: calories });
+    }
+    const exercises = [];
+    const exerciseNameInputs = document.querySelectorAll('#exercise input[type=text]');
+    const exerciseNumberInputs = document.querySelectorAll('#exercise input[type=number]');
+    for (let i = 0; i < exerciseNameInputs.length; i++) {
+        const exerciseName = exerciseNameInputs[i].value;
+        const calories = parseInt(exerciseNumberInputs[i].value);
+        exercises.push({ name: exerciseName, calories: calories });
+    }
+    const breakfastCalories = getCaloriesFromInputs(breakfastNumberInputs);
+    const lunchCalories = getCaloriesFromInputs(lunchNumberInputs);
+    const dinnerCalories = getCaloriesFromInputs(dinnerNumberInputs);
+    const snacksCalories = getCaloriesFromInputs(snacksNumberInputs);
+    const exerciseCalories = getCaloriesFromInputs(exerciseNumberInputs);
+    const budgetCalories = getCaloriesFromInputs([budgetNumberInput]);
+    if (isError) {
+        return null;
+    }
+    const consumedCalories = breakfastCalories + lunchCalories + dinnerCalories + snacksCalories; // Order matters for the tests
+    const remainingCalories = budgetCalories - consumedCalories + exerciseCalories;
+    const surplusOrDeficit = remainingCalories < 0 ? "Surplus" : "Deficit";
+    dailyCaloriesObj = {
+        breakfast: breakfastFoods,
+        lunch: lunchFoods,
+        dinner: dinnerFoods,
+        snacks: snackFoods,
+        exercises: exercises,
+        totalBreakfastCalories: breakfastCalories,
+        totalLunchCalories: lunchCalories,
+        totalDinnerCalories: dinnerCalories,
+        totalSnacksCalories: snacksCalories,
+        totalExerciseCalories: exerciseCalories,
+        budgetCalories: budgetCalories,
+        totalConsumedCalories: consumedCalories,
+        calorieDifference: remainingCalories,
+        surplusOrDeficit: surplusOrDeficit
+    }
+    console.log(dailyCaloriesObj);
 }
 
 function clearForm() {
