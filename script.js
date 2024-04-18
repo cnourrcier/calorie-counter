@@ -146,6 +146,25 @@ function saveData() {
         surplusOrDeficit: surplusOrDeficit
     }
     console.log(dailyCaloriesObj);
+    fetch('/calorie-stats', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(dailyCaloriesObj)
+    })
+        .then(response => {
+            if (response.ok) {
+                // Data saved successfully
+                console.log('Data saved successfully');
+            } else {
+                // Error saving data
+                console.error('Error saving data');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
 }
 
 function clearForm() {
