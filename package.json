@@ -1,0 +1,19 @@
+{
+  "name": "calorie-counter",
+  "version": "1.0.0",
+  "description": "## Description The Calorie Counter project is a web application designed to help users track their daily calorie intake and expenditure. Users can input their budgeted calorie allowance and log the calories consumed and burned through various meals and exercises. The application then calculates the remaining calorie balance and provides feedback on whether the user is in a calorie surplus or deficit.",
+  "main": "script.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "keywords": [],
+  "author": "Charlie Nourrcier",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "mongoose": "^8.3.2",
+    "nodemon": "^3.1.0"
+  }
+}
