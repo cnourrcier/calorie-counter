@@ -2,6 +2,8 @@ const calorieCounter = document.getElementById("calorie-counter");
 const budgetNumberInput = document.getElementById("budget");
 const entryDropdown = document.getElementById("entry-dropdown");
 const addEntryButton = document.getElementById("add-entry");
+const optionsDropdown = document.getElementById("options-dropdown");
+const optionsButton = document.getElementById("choose-option");
 const clearButton = document.getElementById("clear");
 const output = document.getElementById("output");
 let isError = false;
@@ -106,8 +108,8 @@ function saveData(dailyCaloriesObj) {
         },
         body: JSON.stringify(dailyCaloriesObj)
     })
-        .then(response => {
-            if (response.ok) {
+        .then(res => {
+            if (res.ok) {
                 // Data saved successfully
                 console.log('Data saved successfully');
             } else {
@@ -130,6 +132,29 @@ function clearForm() {
     output.classList.add('hide');
 }
 
+function redirectToPage() {
+    const selectedOption = optionsDropdown.value;
+    let redirectUrl;
+    // Determine the URL based on the selected option
+    switch (selectedOption) {
+        case 'view-calories-history':
+            redirectUrl = 'view-calories-history.html';
+            break;
+        case 'edit-calories':
+            redirectUrl = 'edit-calories.html';
+            break;
+        case 'view-calories-by-day':
+            redirectUrl = 'view-calories-by-day.html';
+            break;
+        default:
+            console.error('Invalid option selected');
+            return;
+    }
+    console.log(redirectUrl);
+    window.location.href = redirectUrl; // Redirect to the new URL
+}
+
 addEntryButton.addEventListener('click', addEntry);
+optionsButton.addEventListener('click', redirectToPage);
 calorieCounter.addEventListener('submit', calculateCalories);
 clearButton.addEventListener('click', clearForm);

@@ -13,7 +13,7 @@ mongoose.connect(process.env.CONN_STR)
         console.log('Connected to MongoDB');
     })
 
-// app.use('/', express.static('public'));
+app.use('/', express.static('public'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -31,6 +31,13 @@ app.get('/views/styles.css', (req, res) => {
 app.get('/script.js', (req, res) => {
     res.sendFile(path.join(__dirname, 'script.js'));
 });
+
+app.get('/view-calories-history', async (req, res) => {
+    // Fetch data from the database for calorie history
+    // First I want to start by showing the totalConsumedCalories
+    const totalCaloriesHistory = await DailyCalories.find({}).select('-_id totalConsumedCalories');
+    res.json(totalCaloriesHistory);
+})
 
 app.post('/calorie-stats', (req, res) => {
     const dailyCaloriesData = req.body; // the client will send dailyCaloriesObj as JSON

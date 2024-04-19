@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calories History</title>
+</head>
+
+<body>
+    <h1>Calories History</h1>
+    <div id="calories-history"></div>
+
+    <script>
+        fetch('/view-calories-history')
+            .then(res => res.json())
+            .then(data => {
+                const caloriesHistoryDiv = document.getElementById('calories-history');
+                data.forEach(entry => {
+                    const entryDiv = document.createElement('div');
+                    entryDiv.textContent = JSON.stringify(entry);
+                    caloriesHistoryDiv.appendChild(entryDiv);
+                })
+            })
+            .catch(error => console.error('Error fetching data:', error));
+    </script>
+</body>
+
+</html>
