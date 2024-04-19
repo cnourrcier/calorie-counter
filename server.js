@@ -13,7 +13,7 @@ mongoose.connect(process.env.CONN_STR)
         console.log('Connected to MongoDB');
     })
 
-app.use('/', express.static('public'));
+// app.use('/', express.static('public'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
