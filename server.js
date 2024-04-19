@@ -4,6 +4,7 @@ const express = require('express');
 const app = express();
 require('dotenv').config();
 const path = require('path');
+const moment = require('moment');
 
 const port = process.env.PORT || 3000;
 
@@ -36,7 +37,22 @@ app.get('/view-calories-history', async (req, res) => {
     // Fetch data from the database for calorie history
     // First I want to start by showing the totalConsumedCalories
     const totalCaloriesHistory = await DailyCalories.find({}).select('-_id totalConsumedCalories');
+    if (!totalCaloriesHistory) {
+        return res.status(404).send('No data found!');
+    }
     res.json(totalCaloriesHistory);
+})
+
+app.get('/get-calories-by-date', async (req, res) => {
+    let { date } = req.query;
+    // parse the date string into a Date object
+    const parsedDate = moment(date, 'YYYY-MM-DD').toDate();
+    const calorieData = await DailyCalories.findOne({ date: parsedDate });
+    if (!calorieData) {
+        return res.status(404).send('No data found for that date!');
+    }
+    console.log(calorieData);
+    res.json([calorieData]); // Pass obj inside an array to client
 })
 
 app.post('/calorie-stats', (req, res) => {

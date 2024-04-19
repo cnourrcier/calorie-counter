@@ -14,7 +14,17 @@ const dailyCaloriesSchema = new mongoose.Schema({
     budgetCalories: Number,
     totalConsumedCalories: Number,
     calorieDifference: Number,
-    surplusOrDeficit: String
+    surplusOrDeficit: String,
+    date: {
+        type: Date,
+        default: function () {
+            // Only set the createdAt field if it's not already set
+            if (this.isNew) {
+                const today = new Date();
+                return new Date(today.getFullYear(), today.getMonth(), today.getDate());
+            }
+        }
+    }
 });
 
 const DailyCalories = mongoose.model('DailyCalories', dailyCaloriesSchema);
