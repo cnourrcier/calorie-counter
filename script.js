@@ -35,28 +35,52 @@ function calculateCalories(e) { // this function will be an event listener, e is
     e.preventDefault(); // prevents the submit event from reloading the page.
     isError = false; // reset global error flag to false.
     const fields = ['breakfast', 'lunch', 'dinner', 'snacks', 'exercise'];
-    const fieldCalories = fields.map(type => {
+    fieldData = {};
+    fields.forEach(type => {
+        const nameInputs = document.querySelectorAll(`#${type} input[type=text]`);
         const numberInputs = document.querySelectorAll(`#${type} input[type=number]`);
-        return getCaloriesFromInputs(numberInputs);
+        const field = [];
+        for (let i = 0; i < nameInputs.length; i++) {
+            const name = nameInputs[i].value;
+            const calories = parseInt(numberInputs[i].value);
+            field.push({ name: name, calories: calories });
+        }
+        fieldData[type] = field;
     });
+    const totalExerciseCalories = getCaloriesFromInputs(document.querySelectorAll(`#exercise input[type=number]`));
     const budgetCalories = getCaloriesFromInputs([budgetNumberInput]); // budgetNumberInput is an element, so pass it in array form.
     if (isError) {
         return null;
     }
-    const consumedCalories = fieldCalories.reduce((total, calories) => total + calories, 0) - fieldCalories[4];
-    const remainingCalories = budgetCalories - consumedCalories + fieldCalories[4];
+    const totalConsumedCalories = fields.reduce((total, type) => total + getCaloriesFromInputs(document.querySelectorAll(`#${type} input[type=number]`)), 0) - totalExerciseCalories;
+    const remainingCalories = budgetCalories - totalConsumedCalories + totalExerciseCalories;
     const surplusOrDeficit = remainingCalories < 0 ? "Surplus" : "Deficit";
+    const dailyCaloriesObj = {
+        ...fieldData,
+        totalBreakfastCalories: getCaloriesFromInputs(document.querySelectorAll(`#breakfast input[type=number]`)),
+        totalLunchCalories: getCaloriesFromInputs(document.querySelectorAll(`#lunch input[type=number]`)),
+        totalDinnerCalories: getCaloriesFromInputs(document.querySelectorAll(`#dinner input[type=number]`)),
+        totalSnacksCalories: getCaloriesFromInputs(document.querySelectorAll(`#snacks input[type=number]`)),
+        totalExerciseCalories: totalExerciseCalories,
+        budgetCalories: budgetCalories,
+        totalConsumedCalories: totalConsumedCalories,
+        calorieDifference: Math.abs(remainingCalories),
+        surplusOrDeficit: surplusOrDeficit
+    }
+    console.log(dailyCaloriesObj);
     output.innerHTML = `<span class="${surplusOrDeficit.toLowerCase()}">${Math.abs(remainingCalories)} Calorie ${surplusOrDeficit}</span>
                         <hr>
                         <p>${budgetCalories} Calories Budgeted</p>
-                        <p>${consumedCalories} Calories Consumed</p>
-                        <p>${fieldCalories[4]} Calories Burned</p>
+                        <p>${totalConsumedCalories} Calories Consumed</p>
+                        <p>${totalExerciseCalories} Calories Burned</p>
                         <button type="button" id="save">Save</button>
     `;
     output.classList.remove('hide');
 
     const saveButton = document.getElementById("save");
-    saveButton.addEventListener('click', saveData);
+    saveButton.addEventListener('click', function () {
+        saveData(dailyCaloriesObj)
+    });
 }
 
 function getCaloriesFromInputs(list) { // list will be the result of query selector, which is a NodeList, which is similar to an array.
@@ -74,43 +98,7 @@ function getCaloriesFromInputs(list) { // list will be the result of query selec
     return calories;
 }
 
-function saveData() {
-    isError = false;
-    const fields = ['breakfast', 'lunch', 'dinner', 'snacks', 'exercise'];
-    const fieldData = {};
-    fields.forEach(type => {
-        const nameInputs = document.querySelectorAll(`#${type} input[type=text]`);
-        const numberInputs = document.querySelectorAll(`#${type} input[type=number]`);
-        const field = [];
-        for (let i = 0; i < nameInputs.length; i++) {
-            const name = nameInputs[i].value;
-            const calories = parseInt(numberInputs[i].value);
-            field.push({ name: name, calories: calories });
-        }
-        fieldData[type] = field;
-    });
-
-    const totalExerciseCalories = getCaloriesFromInputs(document.querySelectorAll(`#exercise input[type=number]`));
-    const budgetCalories = getCaloriesFromInputs([budgetNumberInput]);
-    if (isError) {
-        return null;
-    }
-    const totalConsumedCalories = fields.reduce((total, type) => total + getCaloriesFromInputs(document.querySelectorAll(`#${type} input[type=number]`)), 0) - totalExerciseCalories;
-    const remainingCalories = budgetCalories - totalConsumedCalories + totalExerciseCalories;
-    const surplusOrDeficit = remainingCalories < 0 ? "Surplus" : "Deficit";
-    const dailyCaloriesObj = {
-        ...fieldData,
-        totalBreakfastCalories: getCaloriesFromInputs(document.querySelectorAll(`#breakfast input[type=number]`)),
-        totalLunchCalories: getCaloriesFromInputs(document.querySelectorAll(`#lunch input[type=number]`)),
-        totalDinnerCalories: getCaloriesFromInputs(document.querySelectorAll(`#dinner input[type=number]`)),
-        totalSnacksCalories: getCaloriesFromInputs(document.querySelectorAll(`#snacks input[type=number]`)),
-        totalExerciseCalories: totalExerciseCalories,
-        budgetCalories: budgetCalories,
-        totalConsumedCalories: totalConsumedCalories,
-        calorieDifference: remainingCalories,
-        surplusOrDeficit: surplusOrDeficit
-    }
-    console.log(dailyCaloriesObj);
+function saveData(dailyCaloriesObj) {
     fetch('/calorie-stats', {
         method: 'POST',
         headers: {

@@ -5,7 +5,7 @@ const dailyCaloriesSchema = new mongoose.Schema({
     lunch: [{ name: String, calories: Number }],
     dinner: [{ name: String, calories: Number }],
     snacks: [{ name: String, calories: Number }],
-    exercises: [{ name: String, calories: Number }],
+    exercise: [{ name: String, calories: Number }],
     totalBreakfastCalories: Number,
     totalLunchCalories: Number,
     totalDinnerCalories: Number,
