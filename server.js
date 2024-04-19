@@ -28,10 +28,16 @@ app.get('/views/styles.css', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'styles.css'));
 });
 
-// Serve JavaScript file
+// Serve JavaScript files
 app.get('/script.js', (req, res) => {
     res.sendFile(path.join(__dirname, 'script.js'));
 });
+app.get('/edit-calories.js', (req, res) => {
+    res.sendFile(path.join(__dirname, 'edit-calories.js'));
+})
+app.get('/view-calories-by-day.js', (req, res) => {
+    res.sendFile(path.join(__dirname, 'view-calories-by-day.js'));
+})
 
 app.get('/view-calories-history', async (req, res) => {
     // Fetch data from the database for calorie history
@@ -51,8 +57,20 @@ app.get('/get-calories-by-date', async (req, res) => {
     if (!calorieData) {
         return res.status(404).send('No data found for that date!');
     }
-    console.log(calorieData);
     res.json([calorieData]); // Pass obj inside an array to client
+})
+
+app.get('/edit-calories/:id', async (req, res) => {
+    res.sendFile(path.join(__dirname, '/public', 'edit-calories.html'));
+})
+
+app.put('/edit-calories/:id', async (req, res) => {
+    const updatedCalories = await DailyCalories.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true })
+    if (!updatedCalories) {
+        return res.status(404).send('User not found');
+    } else {
+        res.status(200).send('Data updated successfully');
+    }
 })
 
 app.post('/calorie-stats', (req, res) => {

@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../views/styles.css" />
     <title>View Calories By Day</title>
 </head>
 
@@ -15,58 +16,9 @@
         <button type="submit">View Calories Data</button>
     </form>
     <div id="calories-data"></div>
+    <div id="output" class="output hide"></div>
 
-    <script>
-        dateForm = document.getElementById("date-form");
-
-        function getDate(e) {
-            e.preventDefault();
-            const selectedDate = document.getElementById("date-input").value;
-            console.log(selectedDate);
-            fetchData(selectedDate);
-        }
-
-        function fetchData(date) {
-            fetch(`/get-calories-by-date?date=${date}`)
-                .then(res => {
-                    if (res.ok) {
-                        return res.json();
-                    } else {
-                        throw new Error('Failed to fetch data');
-                    }
-                })
-                .then(data => {
-                    displayData(data);
-                })
-                .catch(error => {
-                    console.error('Error fetching data:', error);
-                    displayMessage('Failed to fetch data. Please try again');
-                });
-        }
-
-        function displayData(data) {
-            const caloriesDataDiv = document.getElementById('calories-data');
-            caloriesDataDiv.innerHTML = ''; // Clear previous data
-
-            if (data.length === 0) {
-                displayMessage('No data found for the selected date.');
-            } else {
-                // Display fetched data
-                data.forEach(entry => {
-                    const entryDiv = document.createElement('div');
-                    entryDiv.textContent = JSON.stringify(entry);
-                    caloriesDataDiv.appendChild(entryDiv);
-                });
-            }
-        }
-
-        function displayMessage(message) {
-            const caloriesDataDiv = document.getElementById('calories-data');
-            caloriesDataDiv.innerHTML = `<p>${message}</p>`;
-        }
-
-        dateForm.addEventListener("submit", getDate);
-    </script>
+    <script src="../view-calories-by-day.js"></script>
 </body>
 
 </html>
