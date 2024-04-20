@@ -118,9 +118,11 @@ function updateData(dailyCaloriesObj) {
             if (res.ok) {
                 // Data saved successfully
                 console.log('Data updated successfully');
+                alert('Data updated successfully!');
             } else {
                 // Error saving data
                 console.error('Error saving data');
+                alert('Error saving data!');
             }
         })
         .catch(error => {

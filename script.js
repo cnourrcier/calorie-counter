@@ -112,9 +112,11 @@ function saveData(dailyCaloriesObj) {
             if (res.ok) {
                 // Data saved successfully
                 console.log('Data saved successfully');
+                alert('Data saved successfully!');
             } else {
                 // Error saving data
                 console.error('Error saving data');
+                alert('Error saving data!');
             }
         })
         .catch(error => {
@@ -139,9 +141,6 @@ function redirectToPage() {
     switch (selectedOption) {
         case 'view-calories-history':
             redirectUrl = 'view-calories-history.html';
-            break;
-        case 'edit-calories':
-            redirectUrl = 'edit-calories.html';
             break;
         case 'view-calories-by-day':
             redirectUrl = 'view-calories-by-day.html';

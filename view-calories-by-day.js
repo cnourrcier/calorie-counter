@@ -71,9 +71,11 @@ function deleteRecord(id) {
             if (res.ok) {
                 // Data saved successfully
                 console.log('Data deleted successfully');
+                alert('Data deleted successfully!');
             } else {
                 // Error saving data
                 console.error('Error deleting data');
+                alert('Error deleting data!');
             }
         })
         .catch(error => {
