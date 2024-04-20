@@ -52,7 +52,7 @@ function showButtons(id) {
     const editButton = document.getElementById("edit");
     const deleteButton = document.getElementById("delete");
     editButton.addEventListener('click', function () {
-        redirectUrl = `edit-calories/${id}`;
+        redirectUrl = `edit-calories?id=${id}`;
         redirectForm(redirectUrl);
     })
     deleteButton.addEventListener('click', function () {

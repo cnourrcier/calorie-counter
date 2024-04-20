@@ -74,19 +74,17 @@ npm install
 
 ## API Endpoints
 
-| Endpoint                  | Method | Description                                      |
-|---------------------------|--------|--------------------------------------------------|
-| /                         | GET    | Serves the index.html file.                      |
-| /views/styles.css         | GET    | Serves the styles.css file.                      |
-| /script.js                | GET    | Serves the script.js file.                       |
-| /edit-calories.js         | GET    | Serves the edit-calories.js file.                |
-| /view-calories-by-day.js  | GET    | Serves the view-calories-by-day.js file.         |
-| /view-calories-history    | GET    | Retrieves total consumed calories history.       |
-| /view-calories-by-day     | GET    | Retrieves calorie data for a specific date.      |
-| /edit-calories/:id        | GET    | Serves the edit-calories.html file.              |
-| /edit-calories/:id        | PUT    | Updates calorie data for a specific ID.          |
-| /delete-record/:id        | DELETE | Deletes a record with the specified ID.          |
-| /save-daily-calories            | POST   | Receives daily calorie data and saves to MongoDB.|
+| Endpoint                  | Method | Description                             |
+|---------------------------|--------|-----------------------------------------|
+| /                         | GET    | Serve home page                         |
+| /view-calories-history    | GET    | Fetch total consumed calories history   |
+| /view-calories-by-day     | GET    | Fetch calorie data for a specific day   |
+| /edit-calories            | GET    | Serve edit calories page               |
+| /edit-calories/:id        | PUT    | Update daily calorie data by ID        |
+| /delete-record/:id        | DELETE | Delete daily calorie record by ID       |
+| /save-daily-calories      | POST   | Save daily calorie data to MongoDB     |
+| /*                        | GET    | Handle 404 Not Found                   |
+
 
 ## Credits
 - This project is based on the tutorial available on [freeCodeCamp.org](https://www.freecodecamp.org/) as part of the JavaScript Algorithms and Data Structures (Beta) Certificate program. All credit for the tutorial content goes to the instructors and contributors at freeCodeCamp.

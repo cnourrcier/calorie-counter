@@ -1,9 +1,6 @@
-// Get the pathname from the URL
-const pathname = window.location.pathname;
-// Split the pathname by '/' and get the last segment
-const segments = pathname.split('/');
-const id = segments[segments.length - 1];
-// Now you have access to the ID value and can use it as needed
+// Extract the ID from the query parameters
+const urlParams = new URLSearchParams(window.location.search);
+const id = urlParams.get('id');
 console.log(id);
 const calorieCounter = document.getElementById("calorie-counter");
 const budgetNumberInput = document.getElementById("budget");
@@ -87,6 +84,7 @@ function calculateCalories(e) { // this function will be an event listener, e is
     const updateButton = document.getElementById("update");
     updateButton.addEventListener('click', function () {
         updateData(dailyCaloriesObj)
+        output.classList.add('hide');
     });
 }
 

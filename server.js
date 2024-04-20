@@ -14,32 +14,23 @@ mongoose.connect(process.env.CONN_STR)
         console.log('Connected to MongoDB');
     })
 
-app.use('/', express.static(path.join(__dirname, 'public')));
-app.use(express.json());
+// View req method and path for troubleshooting
+app.use((req, res, next) => {
+    console.log(`${req.method} ${req.path}`);
+    next();
+});
+// built-in middleware to handle urlencoded data
+// in other words, form data:
+//'content-type: application/x-www-form-urlencoded'
 app.use(express.urlencoded({ extended: true }));
+// built-in middleware for json
+app.use(express.json());
 
-// Serve HTML file
+// serve static files
+app.use('/', express.static(path.join(__dirname, 'public')));
+
 app.get('/', async (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'main.html'));
-})
-
-// Serve CSS file
-app.get('/views/styles.css', (req, res) => {
-    res.sendFile(path.join(__dirname, 'views', 'styles.css'));
-});
-
-// Serve JavaScript files
-app.get('/main.js', (req, res) => {
-    res.sendFile(path.join(__dirname, 'main.js'));
-});
-app.get('/edit-calories.js', (req, res) => {
-    res.sendFile(path.join(__dirname, 'edit-calories.js'));
-})
-app.get('/view-calories-by-day.js', (req, res) => {
-    res.sendFile(path.join(__dirname, 'view-calories-by-day.js'));
-})
-app.get('/view-calories-history.js', (req, res) => {
-    res.sendFile(path.join(__dirname, 'view-calories-history.js'));
+    res.sendFile(path.join(__dirname, 'public', 'home.html'));
 })
 
 app.get('/view-calories-history', async (req, res) => {
@@ -63,7 +54,7 @@ app.get('/view-calories-by-day', async (req, res) => {
     res.json([calorieData]); // Pass obj inside an array to client
 })
 
-app.get('/edit-calories/:id', async (req, res) => {
+app.get('/edit-calories', async (req, res) => {
     res.sendFile(path.join(__dirname, '/public', 'edit-calories.html'));
 })
 
@@ -97,6 +88,10 @@ app.post('/save-daily-calories', (req, res) => {
             res.status(500).send('Internal server error');
         });
 });
+
+app.get('/*', (req, res) => {
+    res.status(404).send('404 Not Found');
+})
 
 // Start the server
 app.listen(port, () => {
