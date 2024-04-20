@@ -83,7 +83,7 @@ function calculateCalories(e) { // this function will be an event listener, e is
 
     const updateButton = document.getElementById("update");
     updateButton.addEventListener('click', function () {
-        updateData(dailyCaloriesObj)
+        updateCalRecord(dailyCaloriesObj)
         output.classList.add('hide');
     });
 }
@@ -103,7 +103,7 @@ function getCaloriesFromInputs(list) { // list will be the result of query selec
     return calories;
 }
 
-function updateData(dailyCaloriesObj) {
+function updateCalRecord(dailyCaloriesObj) {
     console.log(dailyCaloriesObj);
     fetch(`/edit-calories/${id}`, {
         method: 'PUT',

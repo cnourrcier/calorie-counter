@@ -56,11 +56,11 @@ function showButtons(id) {
         redirectForm(redirectUrl);
     })
     deleteButton.addEventListener('click', function () {
-        deleteRecord(id);
+        deleteCalRecord(id);
     })
 }
 
-function deleteRecord(id) {
+function deleteCalRecord(id) {
     fetch(`/delete-record/${id}`, {
         method: 'DELETE',
         headers: {
