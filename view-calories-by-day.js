@@ -10,7 +10,7 @@ function getDate(e) {
 }
 
 function fetchData(date) {
-    fetch(`/get-calories-by-date?date=${date}`)
+    fetch(`/view-calories-by-day?date=${date}`)
         .then(res => {
             if (res.ok) {
                 return res.json();

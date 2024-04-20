@@ -101,7 +101,7 @@ function getCaloriesFromInputs(list) { // list will be the result of query selec
 }
 
 function saveData(dailyCaloriesObj) {
-    fetch('/calorie-stats', {
+    fetch('/save-daily-calories', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

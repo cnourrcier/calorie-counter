@@ -15,13 +15,12 @@ mongoose.connect(process.env.CONN_STR)
     })
 
 app.use('/', express.static(path.join(__dirname, 'public')));
-app.use('/', express.static(path.join(__dirname, 'views')));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Serve HTML file
 app.get('/', async (req, res) => {
-    res.sendFile(path.join(__dirname, '/public', '/index.html'));
+    res.sendFile(path.join(__dirname, 'public', 'main.html'));
 })
 
 // Serve CSS file
@@ -30,14 +29,17 @@ app.get('/views/styles.css', (req, res) => {
 });
 
 // Serve JavaScript files
-app.get('/script.js', (req, res) => {
-    res.sendFile(path.join(__dirname, 'script.js'));
+app.get('/main.js', (req, res) => {
+    res.sendFile(path.join(__dirname, 'main.js'));
 });
 app.get('/edit-calories.js', (req, res) => {
     res.sendFile(path.join(__dirname, 'edit-calories.js'));
 })
 app.get('/view-calories-by-day.js', (req, res) => {
     res.sendFile(path.join(__dirname, 'view-calories-by-day.js'));
+})
+app.get('/view-calories-history.js', (req, res) => {
+    res.sendFile(path.join(__dirname, 'view-calories-history.js'));
 })
 
 app.get('/view-calories-history', async (req, res) => {
@@ -50,7 +52,7 @@ app.get('/view-calories-history', async (req, res) => {
     res.json(totalCaloriesHistory);
 })
 
-app.get('/get-calories-by-date', async (req, res) => {
+app.get('/view-calories-by-day', async (req, res) => {
     let { date } = req.query;
     // parse the date string into a Date object
     const parsedDate = moment(date, 'YYYY-MM-DD').toDate();
@@ -83,7 +85,7 @@ app.delete('/delete-record/:id', async (req, res) => {
     }
 })
 
-app.post('/calorie-stats', (req, res) => {
+app.post('/save-daily-calories', (req, res) => {
     const dailyCaloriesData = req.body; // the client will send dailyCaloriesObj as JSON
     // Save data to MongoDB
     DailyCalories.create(dailyCaloriesData)

@@ -57,6 +57,8 @@ npm install
     - View the output to see your calorie balance and whether you're in a surplus or deficit.
     - To save the form data, click the "Save" button.
     - To clear the form and start over, click the "Clear" button.
+    - Choose an option from the selection dropdown to view history of total daily calories consumed or calorie stats by date.
+    - Choose calorie stats by date and make the choice to edit or delete record by pressing the corresponding "Edit" or "Delete" button.
 
 2. **Backend Configuration:**
     - Configure the backend server by setting up environment variables.
@@ -80,11 +82,11 @@ npm install
 | /edit-calories.js         | GET    | Serves the edit-calories.js file.                |
 | /view-calories-by-day.js  | GET    | Serves the view-calories-by-day.js file.         |
 | /view-calories-history    | GET    | Retrieves total consumed calories history.       |
-| /get-calories-by-date     | GET    | Retrieves calorie data for a specific date.      |
+| /view-calories-by-day     | GET    | Retrieves calorie data for a specific date.      |
 | /edit-calories/:id        | GET    | Serves the edit-calories.html file.              |
 | /edit-calories/:id        | PUT    | Updates calorie data for a specific ID.          |
 | /delete-record/:id        | DELETE | Deletes a record with the specified ID.          |
-| /calorie-stats            | POST   | Receives daily calorie data and saves to MongoDB.|
+| /save-daily-calories            | POST   | Receives daily calorie data and saves to MongoDB.|
 
 ## Credits
 - This project is based on the tutorial available on [freeCodeCamp.org](https://www.freecodecamp.org/) as part of the JavaScript Algorithms and Data Structures (Beta) Certificate program. All credit for the tutorial content goes to the instructors and contributors at freeCodeCamp.
