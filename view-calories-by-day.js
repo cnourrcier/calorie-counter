@@ -41,24 +41,49 @@ function displayData(data) {
             caloriesDataDiv.appendChild(entryDiv);
         });
     }
-    showEditButton(dataObj._id);
+    showButtons(dataObj._id);
 }
 
-function showEditButton(id) {
-    output.innerHTML = `<button type="button" id="edit">Edit</button>`;
+function showButtons(id) {
+    output.innerHTML = `<button type="button" id="edit">Edit</button>
+                        <button type="button" id="delete">Delete</button>`;
     output.classList.remove('hide');
 
     const editButton = document.getElementById("edit");
+    const deleteButton = document.getElementById("delete");
     editButton.addEventListener('click', function () {
-        redirectToEditForm(id)
+        redirectUrl = `edit-calories/${id}`;
+        redirectForm(redirectUrl);
+    })
+    deleteButton.addEventListener('click', function () {
+        deleteRecord(id);
     })
 }
 
-function redirectToEditForm(id) {
-    redirectUrl = `edit-calories/${id}`;
+function deleteRecord(id) {
+    fetch(`/delete-record/${id}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    })
+        .then(res => {
+            if (res.ok) {
+                // Data saved successfully
+                console.log('Data deleted successfully');
+            } else {
+                // Error saving data
+                console.error('Error deleting data');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    redirectForm('/');
+}
+
+function redirectForm(redirectUrl) {
     window.location.href = redirectUrl;
-    // I want to redirect to a new page with a form to update the data, 
-    // I want to pass the id because I need to send it with the updated data to the server
 }
 
 function displayMessage(message) {

@@ -1,12 +1,8 @@
 # Calorie Counter
 
-## Description
-The Calorie Counter project is a web application designed to help users track their daily calorie intake and expenditure. Users can input their budgeted calorie allowance and log the calories consumed and burned through various meals and exercises. The application then calculates the remaining calorie balance and provides feedback on whether the user is in a calorie surplus or deficit.
-
-The front end portion of this project is based on the tutorial available on [freeCodeCamp.org](https://www.freecodecamp.org/). I have modifed the code and added more features. Additionally, I have included a back end portion with a database. The original project can be found [here](https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures-v8/).
-
 ## Table of Contents
 
+- [Description](#description)
 - [Features](#features)
 - [Installation](#installation)
 - [Usage](#usage)
@@ -14,12 +10,23 @@ The front end portion of this project is based on the tutorial available on [fre
 - [Credits](#credits)
 - [License](#license)
 
+## Description
+The Calorie Counter project is a web application designed to help users track their daily calorie intake and expenditure. Users can input their budgeted calorie allowance and log the calories consumed and burned through various meals and exercises. The application then calculates the remaining calorie balance and provides feedback on whether the user is in a calorie surplus or deficit.
+
+**This application includes full CRUD (Create, Read, Update, Delete) functionality**
+
+The front end portion of this project is based on the tutorial available on [freeCodeCamp.org](https://www.freecodecamp.org/). I have since modifed the code and added more features. Additionally, I have included a back end portion with a database. I am actively building on this project daily. The original project can be found [here](https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures-v8/).
+
 ## Features
 - Allows users to input their daily calorie budget.
 - Enables users to add entries for meals (breakfast, lunch, dinner, snacks) and exercises.
 - Automatically calculates the remaining calorie balance.
 - Provides feedback on whether the user is in a calorie surplus or deficit.
 - Allows user to save food, exercise, and calorie data to a database.
+- Provides option to retrieve a list of total calories for all recorded dates.
+- Allows user to view a comprehensive dataset for each date.
+- Enables user to edit previously saved records.
+- Gives user the option to delete records.
 
 ## Installation
 
@@ -56,7 +63,7 @@ npm install
     - Create a `.env` file in the root directory.
     - Add the following environment variables:
         ```
-        PORT=3000
+        PORT=<desired_port>
         MONGODB_URI=<your_mongodb_connection_string>
         ```
     - Replace `<your_mongodb_connection_string>` with your MongoDB connection string.
@@ -65,11 +72,19 @@ npm install
 
 ## API Endpoints
 
-|   Endpoint    |  Description  |
-| ------------- | ------------- |
-| GET / | View main page|
-| POST /calorie-stats | Save data to database |
-
+| Endpoint                  | Method | Description                                      |
+|---------------------------|--------|--------------------------------------------------|
+| /                         | GET    | Serves the index.html file.                      |
+| /views/styles.css         | GET    | Serves the styles.css file.                      |
+| /script.js                | GET    | Serves the script.js file.                       |
+| /edit-calories.js         | GET    | Serves the edit-calories.js file.                |
+| /view-calories-by-day.js  | GET    | Serves the view-calories-by-day.js file.         |
+| /view-calories-history    | GET    | Retrieves total consumed calories history.       |
+| /get-calories-by-date     | GET    | Retrieves calorie data for a specific date.      |
+| /edit-calories/:id        | GET    | Serves the edit-calories.html file.              |
+| /edit-calories/:id        | PUT    | Updates calorie data for a specific ID.          |
+| /delete-record/:id        | DELETE | Deletes a record with the specified ID.          |
+| /calorie-stats            | POST   | Receives daily calorie data and saves to MongoDB.|
 
 ## Credits
 - This project is based on the tutorial available on [freeCodeCamp.org](https://www.freecodecamp.org/) as part of the JavaScript Algorithms and Data Structures (Beta) Certificate program. All credit for the tutorial content goes to the instructors and contributors at freeCodeCamp.

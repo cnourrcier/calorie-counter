@@ -73,6 +73,15 @@ app.put('/edit-calories/:id', async (req, res) => {
     }
 })
 
+app.delete('/delete-record/:id', async (req, res) => {
+    const deletedRecord = await DailyCalories.findByIdAndDelete(req.params.id);
+    if (!deletedRecord) {
+        return res.status(404).send('User not found');
+    } else {
+        res.status(200).send('Data deleted successfully');
+    }
+})
+
 app.post('/calorie-stats', (req, res) => {
     const dailyCaloriesData = req.body; // the client will send dailyCaloriesObj as JSON
     // Save data to MongoDB
