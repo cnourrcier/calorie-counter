@@ -8,7 +8,7 @@ const calRoutes = require('./routes/calRoutes');
 const port = process.env.PORT || 3000;
 
 // Connect to MongoDB
-mongoose.connect(process.env.CONN_STR)
+mongoose.connect(process.env.MONGODB_URI)
     .then(() => {
         console.log('Connected to MongoDB');
     })
