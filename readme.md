@@ -90,7 +90,7 @@ npm install
 - This project is based on the tutorial available on [freeCodeCamp.org](https://www.freecodecamp.org/) as part of the JavaScript Algorithms and Data Structures (Beta) Certificate program. All credit for the tutorial content goes to the instructors and contributors at freeCodeCamp.
 
 ## License
-This project is licensed under the MIT License - see the [MIT License](LICENSE) file for details. 
+This project is licensed under the BSD-3 License - see the [License](LICENSE) file for details. 
 
 
 
